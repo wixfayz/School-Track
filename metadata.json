@@ -1,0 +1,6 @@
+{
+  "name": "School Track",
+  "description": "A simple digital platform that helps parents stay connected to their children's daily academic performance, attendance, homework, teacher feedback, school announcements, and achievements.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
