@@ -31,7 +31,7 @@ export function SafeImage({
           </span>
         ) : (
           <div className="flex flex-col items-center gap-1.5 px-3 text-center">
-            <GraduationCap className="w-6 h-6 text-blue-600" aria-hidden="true" />
+            <GraduationCap className="w-6 h-6 text-green-700" aria-hidden="true" />
             {fallbackLabel && (
               <span className="text-xs font-medium text-slate-600">{fallbackLabel}</span>
             )}

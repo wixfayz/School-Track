@@ -20,7 +20,7 @@ interface TopBarProps {
 
 const PARENT_NAV: { id: NavSection; label: string }[] = [
   { id: 'overview', label: 'Overview' },
-  { id: 'academics', label: 'Academics' },
+  { id: 'academics', label: 'Reports & Grades' },
   { id: 'homework', label: 'Homework' },
   { id: 'attendance', label: 'Attendance' },
   { id: 'updates', label: 'Notes & News' },
@@ -88,14 +88,21 @@ export function TopBar({
 
   return (
     <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+      {/* Subtle 3px brand stripe in green & orange across the very top edge */}
+      <div className="h-1 w-full flex" aria-hidden="true">
+        <div className="w-2/3 bg-green-700" />
+        <div className="w-1/3 bg-orange-500" />
+      </div>
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Single-element Brand Wordmark */}
+        {/* Zone 1: Single-element Brand Wordmark in Green & Orange */}
         <button
           type="button"
           onClick={handleBrandClick}
-          className="font-display text-xl font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 cursor-pointer hover:text-blue-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4"
+          className="font-display text-xl font-bold tracking-tight whitespace-nowrap shrink-0 cursor-pointer transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-4"
         >
-          School Track
+          <span className="text-green-800">School</span>{' '}
+          <span className="text-orange-600">Track</span>
         </button>
 
         {/* Zone 2: Clean single-line text nav links */}
@@ -112,7 +119,7 @@ export function TopBar({
                 onClick={() => handleItemClick(item.id)}
                 className={`relative py-2 text-sm font-medium whitespace-nowrap shrink-0 cursor-pointer transition-colors duration-150 ${
                   isActive
-                    ? 'text-blue-700'
+                    ? 'text-green-800 font-semibold'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
                 aria-current={isActive ? 'page' : undefined}
@@ -121,7 +128,7 @@ export function TopBar({
                 {isActive && (
                   <span
                     aria-hidden="true"
-                    className="absolute inset-x-0 -bottom-[17px] h-0.5 bg-blue-600"
+                    className="absolute inset-x-0 -bottom-[17px] h-0.5 bg-orange-600"
                   />
                 )}
               </button>
@@ -134,7 +141,7 @@ export function TopBar({
           <button
             type="button"
             onClick={onPrimaryAction}
-            className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+            className="px-4 py-2 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer"
           >
             {primaryActionLabel}
           </button>
@@ -170,7 +177,7 @@ export function TopBar({
                 onClick={() => handleItemClick(item.id)}
                 className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
                   isActive
-                    ? 'bg-blue-50 text-blue-700'
+                    ? 'bg-green-50 text-green-800 font-semibold'
                     : 'text-slate-700 hover:bg-slate-50'
                 }`}
               >

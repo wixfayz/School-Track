@@ -120,7 +120,7 @@ export function MessageModal({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 cursor-pointer"
             >
               <Send className="w-4 h-4" aria-hidden="true" />
               Send Message

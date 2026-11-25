@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import {
   NavSection,
+  ReportPeriodId,
   SCHOOL_BANNER_IMAGE,
   SchoolAnnouncement,
   StudentProfile,
@@ -18,6 +19,7 @@ interface OverviewSectionProps {
   student: StudentProfile;
   announcements: SchoolAnnouncement[];
   onNavigate: (section: NavSection) => void;
+  onOpenReportPeriod: (period: ReportPeriodId) => void;
   onToggleHomework: (homeworkId: string) => void;
   onToggleFeedbackRead: (feedbackId: string) => void;
   onToggleAnnouncementAck: (announcementId: string) => void;
@@ -27,6 +29,7 @@ export function OverviewSection({
   student,
   announcements,
   onNavigate,
+  onOpenReportPeriod,
   onToggleHomework,
   onToggleFeedbackRead,
   onToggleAnnouncementAck,
@@ -45,10 +48,10 @@ export function OverviewSection({
 
   const renderAttendanceIcon = () => {
     if (student.todayStatus === 'Present') {
-      return <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />;
+      return <CheckCircle2 className="w-4 h-4 text-green-700 shrink-0" aria-hidden="true" />;
     }
     if (student.todayStatus === 'Late') {
-      return <Clock className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true" />;
+      return <Clock className="w-4 h-4 text-orange-600 shrink-0" aria-hidden="true" />;
     }
     return <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" aria-hidden="true" />;
   };
@@ -59,16 +62,16 @@ export function OverviewSection({
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         <div className="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-6 sm:p-8 flex flex-col justify-between gap-6">
           <div className="space-y-3">
-            <p className="text-sm font-medium text-blue-700">
+            <p className="text-sm font-semibold text-orange-700">
               {student.schoolName} · Daily Parent Summary
             </p>
             <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Good morning, Bello Family
             </h1>
             <p className="text-base text-slate-600 leading-relaxed max-w-xl">
-              Here is {student.firstName}’s simple school check-in for today. You can
-              check class scores, tick off finished homework, read notes from{' '}
-              {student.homeroomTeacher}, and celebrate new awards all in one place.
+              Here is {student.firstName}’s daily school update. Check today’s class
+              scores, look back at past reports, tick off homework, and read notes from{' '}
+              {student.homeroomTeacher} all in one place.
             </p>
           </div>
 
@@ -76,16 +79,16 @@ export function OverviewSection({
             <button
               type="button"
               onClick={() => onNavigate('homework')}
-              className="px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+              className="px-4 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
             >
               Check Today’s Homework
             </button>
             <button
               type="button"
-              onClick={() => onNavigate('academics')}
-              className="px-4 py-2.5 text-sm font-semibold text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+              onClick={() => onOpenReportPeriod('last-week')}
+              className="px-4 py-2.5 text-sm font-semibold text-orange-800 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-100 transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
             >
-              View All Grades
+              View Past Reports
             </button>
           </div>
         </div>
@@ -116,7 +119,7 @@ export function OverviewSection({
         <button
           type="button"
           onClick={() => onNavigate('attendance')}
-          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition-colors duration-150 cursor-pointer"
+          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-green-400 transition-colors duration-150 cursor-pointer"
         >
           <p className="text-xs font-medium text-slate-500">Today’s Attendance</p>
           <div className="mt-2 flex items-center gap-2">
@@ -132,11 +135,11 @@ export function OverviewSection({
 
         <button
           type="button"
-          onClick={() => onNavigate('academics')}
-          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition-colors duration-150 cursor-pointer"
+          onClick={() => onOpenReportPeriod('this-week')}
+          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-green-400 transition-colors duration-150 cursor-pointer"
         >
-          <p className="text-xs font-medium text-slate-500">Average Class Score</p>
-          <p className="mt-2 font-display text-2xl font-bold text-slate-900 tabular-nums">
+          <p className="text-xs font-medium text-slate-500">This Week’s Average</p>
+          <p className="mt-2 font-display text-2xl font-bold text-green-800 tabular-nums">
             {averageScore}%
           </p>
           <p className="mt-1 text-xs text-slate-500 tabular-nums">
@@ -147,7 +150,7 @@ export function OverviewSection({
         <button
           type="button"
           onClick={() => onNavigate('homework')}
-          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition-colors duration-150 cursor-pointer"
+          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-orange-400 transition-colors duration-150 cursor-pointer"
         >
           <p className="text-xs font-medium text-slate-500">Homework Progress</p>
           <p className="mt-2 font-display text-2xl font-bold text-slate-900 tabular-nums">
@@ -162,11 +165,11 @@ export function OverviewSection({
 
         <button
           type="button"
-          onClick={() => onNavigate('academics')}
-          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-300 transition-colors duration-150 cursor-pointer"
+          onClick={() => onOpenReportPeriod('this-week')}
+          className="text-left bg-white border border-slate-200 rounded-xl p-5 hover:border-orange-400 transition-colors duration-150 cursor-pointer"
         >
           <p className="text-xs font-medium text-slate-500">Achievements Earned</p>
-          <p className="mt-2 font-display text-2xl font-bold text-slate-900 tabular-nums">
+          <p className="mt-2 font-display text-2xl font-bold text-orange-700 tabular-nums">
             {student.achievements.length} Awards
           </p>
           <p className="mt-1 text-xs text-slate-500 truncate">
@@ -193,7 +196,7 @@ export function OverviewSection({
               <button
                 type="button"
                 onClick={() => onNavigate('homework')}
-                className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800 whitespace-nowrap shrink-0 cursor-pointer"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800 whitespace-nowrap shrink-0 cursor-pointer"
               >
                 See all
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -211,10 +214,10 @@ export function OverviewSection({
                         ? `Mark "${task.title}" as not done`
                         : `Mark "${task.title}" as done`
                     }
-                    className="mt-0.5 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer shrink-0"
+                    className="mt-0.5 text-slate-400 hover:text-green-700 transition-colors cursor-pointer shrink-0"
                   >
                     {task.completed ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                      <CheckCircle2 className="w-5 h-5 text-green-700" />
                     ) : (
                       <Circle className="w-5 h-5" />
                     )}
@@ -237,8 +240,8 @@ export function OverviewSection({
                       <span
                         className={
                           task.completed
-                            ? 'text-emerald-700 font-medium'
-                            : 'text-amber-700 font-medium'
+                            ? 'text-green-700 font-semibold'
+                            : 'text-orange-700 font-semibold'
                         }
                       >
                         {task.completed ? 'Done' : 'To Do'}
@@ -258,15 +261,15 @@ export function OverviewSection({
                   Daily Academic Performance
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Latest classwork scores by subject
+                  This week’s scores — view past weeks, months, or previous class in Reports
                 </p>
               </div>
               <button
                 type="button"
-                onClick={() => onNavigate('academics')}
-                className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800 whitespace-nowrap shrink-0 cursor-pointer"
+                onClick={() => onOpenReportPeriod('this-week')}
+                className="inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800 whitespace-nowrap shrink-0 cursor-pointer"
               >
-                Full report
+                All reports
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
@@ -287,7 +290,7 @@ export function OverviewSection({
                       <span className="text-sm font-semibold text-slate-900 tabular-nums">
                         {item.score}/100
                       </span>
-                      <span className="ml-2 text-xs text-slate-500">
+                      <span className="ml-2 text-xs text-green-700 font-medium">
                         {item.level}
                       </span>
                     </div>
@@ -297,7 +300,7 @@ export function OverviewSection({
                     aria-hidden="true"
                   >
                     <div
-                      className="h-full bg-blue-600 rounded-full transition-all duration-200"
+                      className="h-full bg-green-700 rounded-full transition-all duration-200"
                       style={{ width: `${item.score}%` }}
                     />
                   </div>
@@ -319,7 +322,7 @@ export function OverviewSection({
                 <button
                   type="button"
                   onClick={() => onNavigate('updates')}
-                  className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800 whitespace-nowrap shrink-0 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800 whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   All notes
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -359,7 +362,7 @@ export function OverviewSection({
                   <button
                     type="button"
                     onClick={() => onToggleFeedbackRead(latestFeedback.id)}
-                    className="text-xs font-semibold text-blue-700 hover:text-blue-800 cursor-pointer"
+                    className="text-xs font-semibold text-orange-700 hover:text-orange-800 cursor-pointer"
                   >
                     {latestFeedback.isRead ? 'Mark as unread' : 'Mark as read'}
                   </button>
@@ -378,7 +381,7 @@ export function OverviewSection({
                 <button
                   type="button"
                   onClick={() => onNavigate('updates')}
-                  className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800 whitespace-nowrap shrink-0 cursor-pointer"
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800 whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   All news
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -403,8 +406,8 @@ export function OverviewSection({
                     }
                     className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                       latestAnnouncement.acknowledged
-                        ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                        : 'bg-slate-100 text-slate-800 hover:bg-slate-200'
+                        ? 'bg-green-50 text-green-800 hover:bg-green-100'
+                        : 'bg-orange-50 text-orange-800 hover:bg-orange-100'
                     }`}
                   >
                     {latestAnnouncement.acknowledged
@@ -425,8 +428,8 @@ export function OverviewSection({
                 </h2>
                 <button
                   type="button"
-                  onClick={() => onNavigate('academics')}
-                  className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-800 whitespace-nowrap shrink-0 cursor-pointer"
+                  onClick={() => onOpenReportPeriod('this-week')}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-green-700 hover:text-green-800 whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   All awards
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -434,8 +437,8 @@ export function OverviewSection({
               </div>
 
               <div className="mt-4 flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0">
-                  <Award className="w-5 h-5 text-amber-600" aria-hidden="true" />
+                <div className="w-10 h-10 rounded-lg bg-orange-50 border border-orange-200 flex items-center justify-center shrink-0">
+                  <Award className="w-5 h-5 text-orange-600" aria-hidden="true" />
                 </div>
                 <div className="space-y-1">
                   <h3 className="font-display text-base font-semibold text-slate-900">

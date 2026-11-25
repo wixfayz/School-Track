@@ -6,6 +6,7 @@ import {
   INITIAL_STUDENTS,
   ManagementTab,
   NavSection,
+  ReportPeriodId,
   SchoolAnnouncement,
   StudentProfile,
   TEACHER_AMINA_AVATAR,
@@ -25,7 +26,7 @@ import { TeacherDashboard } from './components/TeacherDashboard';
 import { ManagementDashboard } from './components/ManagementDashboard';
 import { MessageModal } from './components/MessageModal';
 
-const STORAGE_KEY = 'school_track_state_v2';
+const STORAGE_KEY = 'school_track_state_v3';
 
 interface SavedState {
   students: StudentProfile[];
@@ -77,6 +78,7 @@ export default function App() {
     initial.selectedStudentId
   );
   const [activeSection, setActiveSection] = useState<NavSection>('overview');
+  const [reportPeriod, setReportPeriod] = useState<ReportPeriodId>('this-week');
   const [teacherTab, setTeacherTab] = useState<TeacherTab>('rollcall');
   const [managementTab, setManagementTab] = useState<ManagementTab>('summary');
   const [isMessageOpen, setIsMessageOpen] = useState(false);
@@ -113,6 +115,11 @@ export default function App() {
         student.id === studentId ? updater(student) : student
       )
     );
+  };
+
+  const handleOpenReportPeriod = (period: ReportPeriodId) => {
+    setReportPeriod(period);
+    setActiveSection('academics');
   };
 
   // Parent actions
@@ -398,6 +405,7 @@ export default function App() {
     setSelectedStudentId(INITIAL_STUDENTS[0].id);
     setRole('parent');
     setActiveSection('overview');
+    setReportPeriod('this-week');
     setToastText('Sample school data restored.');
   };
 
@@ -411,7 +419,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F9FC] text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[#F8FAF8] text-slate-900">
       <TopBar
         role={role}
         activeSection={activeSection}
@@ -439,6 +447,7 @@ export default function App() {
                 student={activeStudent}
                 announcements={announcements}
                 onNavigate={setActiveSection}
+                onOpenReportPeriod={handleOpenReportPeriod}
                 onToggleHomework={handleToggleHomework}
                 onToggleFeedbackRead={handleToggleFeedbackRead}
                 onToggleAnnouncementAck={handleToggleAnnouncementAck}
@@ -446,7 +455,11 @@ export default function App() {
             )}
 
             {activeSection === 'academics' && (
-              <AcademicsSection student={activeStudent} />
+              <AcademicsSection
+                student={activeStudent}
+                selectedPeriod={reportPeriod}
+                onSelectPeriod={setReportPeriod}
+              />
             )}
 
             {activeSection === 'homework' && (
@@ -502,12 +515,13 @@ export default function App() {
       <footer className="border-t border-slate-200 bg-white mt-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <p>
-            School Track · Connecting parents, teachers, and Oakwood Primary School
+            <span className="font-semibold text-green-800">School</span>{' '}
+            <span className="font-semibold text-orange-600">Track</span> · Connecting parents, teachers, and Oakwood Primary School
           </p>
           <button
             type="button"
             onClick={handleResetDemo}
-            className="font-medium text-slate-600 hover:text-slate-900 underline underline-offset-4 cursor-pointer"
+            className="font-medium text-green-800 hover:text-orange-700 underline underline-offset-4 cursor-pointer"
           >
             Reset sample data
           </button>
@@ -525,7 +539,7 @@ export default function App() {
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-5 right-5 z-40 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-lg shadow-md"
+          className="fixed bottom-5 right-5 z-40 bg-green-900 text-white text-sm font-medium px-4 py-3 rounded-lg shadow-md border border-orange-400/50"
         >
           {toastText}
         </div>

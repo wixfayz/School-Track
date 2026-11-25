@@ -3,6 +3,7 @@ export type UserRole = 'parent' | 'teacher' | 'management';
 export type NavSection = 'overview' | 'academics' | 'homework' | 'attendance' | 'updates';
 export type TeacherTab = 'rollcall' | 'grades' | 'homework' | 'feedback';
 export type ManagementTab = 'summary' | 'announcements' | 'classes';
+export type ReportPeriodId = 'this-week' | 'last-week' | 'last-month' | 'previous-class';
 
 export interface SubjectPerformance {
   id: string;
@@ -13,6 +14,24 @@ export interface SubjectPerformance {
   todayTopic: string;
   teacherNote: string;
   updatedAt: string;
+}
+
+export interface PastReportRecord {
+  id: Exclude<ReportPeriodId, 'this-week'>;
+  label: string;
+  dateRange: string;
+  className: string;
+  teacherName: string;
+  attendanceSummary: string;
+  overallRemark: string;
+  subjects: {
+    subject: string;
+    group: 'core' | 'creative';
+    score: number;
+    level: 'Excellent' | 'Great' | 'Good' | 'Needs Practice';
+    topic: string;
+    remark: string;
+  }[];
 }
 
 export interface HomeworkItem {
@@ -34,6 +53,17 @@ export interface AttendanceDay {
   weekLabel: string;
   status: AttendanceStatus;
   arrivalTime: string;
+  note: string;
+}
+
+export interface PastAttendanceTerm {
+  termLabel: string;
+  schoolYear: string;
+  className: string;
+  presentDays: number;
+  lateDays: number;
+  absentDays: number;
+  totalDays: number;
   note: string;
 }
 
@@ -86,8 +116,11 @@ export interface StudentProfile {
   todayStatus: AttendanceStatus;
   todayArrival: string;
   academics: SubjectPerformance[];
+  pastReports: PastReportRecord[];
   homework: HomeworkItem[];
   attendance: AttendanceDay[];
+  lastMonthAttendance: AttendanceDay[];
+  previousClassAttendance: PastAttendanceTerm[];
   feedback: TeacherFeedbackItem[];
   achievements: AchievementItem[];
 }
@@ -243,12 +276,170 @@ export const INITIAL_STUDENTS: StudentProfile[] = [
         updatedAt: 'Nov 18',
       },
     ],
+    pastReports: [
+      {
+        id: 'last-week',
+        label: 'Last Week',
+        dateRange: 'Nov 9 – Nov 13, 2026',
+        className: 'Primary 4 · Room 4B',
+        teacherName: 'Mrs. Amina Ibrahim',
+        attendanceSummary: '5 of 5 days attended (1 late)',
+        overallRemark:
+          "Rabi'atu had a very steady week and showed big improvement in Basic Science experiments.",
+        subjects: [
+          {
+            subject: 'Mathematics',
+            group: 'core',
+            score: 90,
+            level: 'Excellent',
+            topic: 'Times tables and word problems',
+            remark: 'Accurate steps on all class exercises.',
+          },
+          {
+            subject: 'English Language',
+            group: 'core',
+            score: 89,
+            level: 'Great',
+            topic: 'Writing short paragraphs with punctuation',
+            remark: 'Neat handwriting and clear sentences.',
+          },
+          {
+            subject: 'Basic Science',
+            group: 'core',
+            score: 85,
+            level: 'Great',
+            topic: 'Parts of a flowering plant',
+            remark: 'Labeled her diagram carefully.',
+          },
+          {
+            subject: 'Social Studies',
+            group: 'core',
+            score: 84,
+            level: 'Great',
+            topic: 'Community helpers and civic duties',
+            remark: 'Participated politely in class discussion.',
+          },
+          {
+            subject: 'Creative Arts',
+            group: 'creative',
+            score: 94,
+            level: 'Excellent',
+            topic: 'Paper collage patterns',
+            remark: 'Bright colors and neat cutting.',
+          },
+        ],
+      },
+      {
+        id: 'last-month',
+        label: 'Last Month',
+        dateRange: 'October 2026 · Term 2',
+        className: 'Primary 4 · Room 4B',
+        teacherName: 'Mrs. Amina Ibrahim',
+        attendanceSummary: '19 of 20 school days present (95%)',
+        overallRemark:
+          "A strong start to Primary 4! Rabi'atu settled into her new class quickly and enjoys reading every day.",
+        subjects: [
+          {
+            subject: 'Mathematics',
+            group: 'core',
+            score: 87,
+            level: 'Great',
+            topic: 'Place value and 3-digit addition',
+            remark: 'Careful work; keep practicing quick mental sums.',
+          },
+          {
+            subject: 'English Language',
+            group: 'core',
+            score: 88,
+            level: 'Great',
+            topic: 'Storytelling and new vocabulary',
+            remark: 'Confident voice during class reading.',
+          },
+          {
+            subject: 'Basic Science',
+            group: 'core',
+            score: 83,
+            level: 'Great',
+            topic: 'Living and non-living things',
+            remark: 'Curious and asks thoughtful questions.',
+          },
+          {
+            subject: 'Social Studies',
+            group: 'core',
+            score: 82,
+            level: 'Great',
+            topic: 'Nigerian states and culture',
+            remark: 'Shared a great short report with her group.',
+          },
+          {
+            subject: 'Creative Arts',
+            group: 'creative',
+            score: 92,
+            level: 'Excellent',
+            topic: 'Pencil shading and simple shapes',
+            remark: 'Very expressive drawing skills.',
+          },
+        ],
+      },
+      {
+        id: 'previous-class',
+        label: 'Previous Class',
+        dateRange: '2025/2026 Session · Final Report',
+        className: 'Primary 3 · Room 3B',
+        teacherName: 'Mr. Tunde Adeyemi',
+        attendanceSummary: '176 of 180 school days present (98%)',
+        overallRemark:
+          "Promoted to Primary 4 with honors! Rabi'atu was a cheerful leader in Primary 3 and always helped younger pupils.",
+        subjects: [
+          {
+            subject: 'Mathematics',
+            group: 'core',
+            score: 85,
+            level: 'Great',
+            topic: 'Primary 3 Core Arithmetic & Simple Fractions',
+            remark: 'Strong foundation ready for Primary 4.',
+          },
+          {
+            subject: 'English Language',
+            group: 'core',
+            score: 86,
+            level: 'Great',
+            topic: 'Primary 3 Reading, Grammar & Spelling',
+            remark: 'Read 18 library books across the school year.',
+          },
+          {
+            subject: 'Basic Science',
+            group: 'core',
+            score: 82,
+            level: 'Great',
+            topic: 'Weather, Water & Simple Machines',
+            remark: 'Loved hands-on group science days.',
+          },
+          {
+            subject: 'Social Studies',
+            group: 'core',
+            score: 84,
+            level: 'Great',
+            topic: 'Family Values & School Community',
+            remark: 'Kind, respectful, and cooperative.',
+          },
+          {
+            subject: 'Creative Arts',
+            group: 'creative',
+            score: 91,
+            level: 'Excellent',
+            topic: 'Drawing, Craft & Class Performance',
+            remark: 'Won Best Craft Project in Term 3.',
+          },
+        ],
+      },
+    ],
     homework: [
       {
         id: 'rh-1',
         subject: 'Mathematics',
         title: 'Multiplication Practice Sheet (Page 24)',
-        instructions: 'Complete questions 1 to 10 in the blue math workbook.',
+        instructions: 'Complete questions 1 to 10 in the green math workbook.',
         dueDate: 'Tomorrow',
         completed: false,
       },
@@ -293,6 +484,55 @@ export const INITIAL_STUDENTS: StudentProfile[] = [
       { id: 'ra-13', dateLabel: 'Nov 18', dayName: 'Wed', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:45 AM', note: 'Arrived on time.' },
       { id: 'ra-14', dateLabel: 'Nov 19', dayName: 'Thu', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:51 AM', note: 'Arrived on time.' },
       { id: 'ra-15', dateLabel: 'Nov 20', dayName: 'Fri', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:48 AM', note: 'Great finish to the school week!' },
+    ],
+    lastMonthAttendance: [
+      { id: 'ro-1', dateLabel: 'Oct 5', dayName: 'Mon', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:46 AM', note: 'Great start to October!' },
+      { id: 'ro-2', dateLabel: 'Oct 6', dayName: 'Tue', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:49 AM', note: 'Arrived on time.' },
+      { id: 'ro-3', dateLabel: 'Oct 7', dayName: 'Wed', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:44 AM', note: 'Arrived on time.' },
+      { id: 'ro-4', dateLabel: 'Oct 8', dayName: 'Thu', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:50 AM', note: 'Arrived on time.' },
+      { id: 'ro-5', dateLabel: 'Oct 9', dayName: 'Fri', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:48 AM', note: 'Attended Friday assembly.' },
+      { id: 'ro-6', dateLabel: 'Oct 12', dayName: 'Mon', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:51 AM', note: 'Arrived on time.' },
+      { id: 'ro-7', dateLabel: 'Oct 13', dayName: 'Tue', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:47 AM', note: 'Arrived on time.' },
+      { id: 'ro-8', dateLabel: 'Oct 14', dayName: 'Wed', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:45 AM', note: 'Arrived on time.' },
+      { id: 'ro-9', dateLabel: 'Oct 15', dayName: 'Thu', weekLabel: 'Week 2', status: 'Absent', arrivalTime: '—', note: 'Family travel day (excused).' },
+      { id: 'ro-10', dateLabel: 'Oct 16', dayName: 'Fri', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:49 AM', note: 'Back in class and smiling.' },
+      { id: 'ro-11', dateLabel: 'Oct 19', dayName: 'Mon', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:46 AM', note: 'Arrived on time.' },
+      { id: 'ro-12', dateLabel: 'Oct 20', dayName: 'Tue', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:48 AM', note: 'Arrived on time.' },
+      { id: 'ro-13', dateLabel: 'Oct 21', dayName: 'Wed', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:50 AM', note: 'Arrived on time.' },
+      { id: 'ro-14', dateLabel: 'Oct 22', dayName: 'Thu', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:47 AM', note: 'Arrived on time.' },
+      { id: 'ro-15', dateLabel: 'Oct 23', dayName: 'Fri', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:45 AM', note: '100% week attendance!' },
+    ],
+    previousClassAttendance: [
+      {
+        termLabel: 'Term 1',
+        schoolYear: '2025/2026',
+        className: 'Primary 3',
+        presentDays: 58,
+        lateDays: 1,
+        absentDays: 1,
+        totalDays: 60,
+        note: 'Punctual and eager every morning.',
+      },
+      {
+        termLabel: 'Term 2',
+        schoolYear: '2025/2026',
+        className: 'Primary 3',
+        presentDays: 59,
+        lateDays: 0,
+        absentDays: 1,
+        totalDays: 60,
+        note: 'Received Punctuality Ribbon at end of term.',
+      },
+      {
+        termLabel: 'Term 3',
+        schoolYear: '2025/2026',
+        className: 'Primary 3',
+        presentDays: 58,
+        lateDays: 0,
+        absentDays: 2,
+        totalDays: 60,
+        note: 'Excellent full-year attendance record (98%).',
+      },
     ],
     feedback: [
       {
@@ -425,6 +665,140 @@ export const INITIAL_STUDENTS: StudentProfile[] = [
         updatedAt: 'Nov 19',
       },
     ],
+    pastReports: [
+      {
+        id: 'last-week',
+        label: 'Last Week',
+        dateRange: 'Nov 9 – Nov 13, 2026',
+        className: 'Primary 2 · Room 2A',
+        teacherName: 'Mrs. Amina Ibrahim',
+        attendanceSummary: '5 of 5 days attended (1 late)',
+        overallRemark:
+          "Shu'aibu was full of curiosity last week and read his storybook aloud with a big smile!",
+        subjects: [
+          {
+            subject: 'Mathematics',
+            group: 'core',
+            score: 86,
+            level: 'Great',
+            topic: 'Counting in 2s, 5s, and 10s',
+            remark: 'Quick with skip-counting games.',
+          },
+          {
+            subject: 'Phonics & Reading',
+            group: 'core',
+            score: 85,
+            level: 'Great',
+            topic: 'Blending consonant sounds',
+            remark: 'Improved fluency during partner reading.',
+          },
+          {
+            subject: 'Basic Science',
+            group: 'core',
+            score: 92,
+            level: 'Excellent',
+            topic: 'Seeds, soil, and sunlight',
+            remark: 'Loved watering our classroom bean sprouts.',
+          },
+          {
+            subject: 'Drawing & Music',
+            group: 'creative',
+            score: 90,
+            level: 'Excellent',
+            topic: 'Animal sketches in crayon',
+            remark: 'Very joyful and colorful artwork.',
+          },
+        ],
+      },
+      {
+        id: 'last-month',
+        label: 'Last Month',
+        dateRange: 'October 2026 · Term 2',
+        className: 'Primary 2 · Room 2A',
+        teacherName: 'Mrs. Amina Ibrahim',
+        attendanceSummary: '20 of 20 school days present (100%)',
+        overallRemark:
+          "Perfect attendance in October! Shu'aibu is growing in confidence with reading and number lines.",
+        subjects: [
+          {
+            subject: 'Mathematics',
+            group: 'core',
+            score: 84,
+            level: 'Great',
+            topic: 'Number bonds up to 50',
+            remark: 'Good steady practice every morning.',
+          },
+          {
+            subject: 'Phonics & Reading',
+            group: 'core',
+            score: 82,
+            level: 'Great',
+            topic: 'Short vowel picture books',
+            remark: 'Keep reading aloud 10 minutes each evening.',
+          },
+          {
+            subject: 'Basic Science',
+            group: 'core',
+            score: 90,
+            level: 'Excellent',
+            topic: 'Our five senses',
+            remark: 'Named all five senses clearly with examples.',
+          },
+          {
+            subject: 'Drawing & Music',
+            group: 'creative',
+            score: 89,
+            level: 'Great',
+            topic: 'Class rhythm and singing',
+            remark: 'Cheerful singer and kind teammate.',
+          },
+        ],
+      },
+      {
+        id: 'previous-class',
+        label: 'Previous Class',
+        dateRange: '2025/2026 Session · Final Report',
+        className: 'Primary 1 · Room 1A',
+        teacherName: 'Miss Zainab Musa',
+        attendanceSummary: '177 of 180 school days present (98%)',
+        overallRemark:
+          "Promoted to Primary 2 with a bright smile! Shu'aibu learned to read short sentences and loves nature discovery.",
+        subjects: [
+          {
+            subject: 'Mathematics',
+            group: 'core',
+            score: 83,
+            level: 'Great',
+            topic: 'Primary 1 Counting, Shapes & Simple Sums',
+            remark: 'Solid understanding of early numbers.',
+          },
+          {
+            subject: 'Phonics & Reading',
+            group: 'core',
+            score: 81,
+            level: 'Great',
+            topic: 'Primary 1 Letter Sounds & Sight Words',
+            remark: 'Made wonderful progress by Term 3.',
+          },
+          {
+            subject: 'Basic Science',
+            group: 'core',
+            score: 88,
+            level: 'Great',
+            topic: 'Animals, Plants & Healthy Habits',
+            remark: 'Always excited for outdoor science walks.',
+          },
+          {
+            subject: 'Drawing & Music',
+            group: 'creative',
+            score: 89,
+            level: 'Great',
+            topic: 'Coloring, Rhymes & Storytelling',
+            remark: 'Friendly, creative, and well-behaved.',
+          },
+        ],
+      },
+    ],
     homework: [
       {
         id: 'sh-1',
@@ -467,6 +841,55 @@ export const INITIAL_STUDENTS: StudentProfile[] = [
       { id: 'sa-13', dateLabel: 'Nov 18', dayName: 'Wed', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:45 AM', note: 'Arrived on time.' },
       { id: 'sa-14', dateLabel: 'Nov 19', dayName: 'Thu', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:51 AM', note: 'Arrived on time.' },
       { id: 'sa-15', dateLabel: 'Nov 20', dayName: 'Fri', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:48 AM', note: 'Full week of smiling attendance!' },
+    ],
+    lastMonthAttendance: [
+      { id: 'so-1', dateLabel: 'Oct 5', dayName: 'Mon', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:46 AM', note: 'Happy arrival!' },
+      { id: 'so-2', dateLabel: 'Oct 6', dayName: 'Tue', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:49 AM', note: 'Arrived on time.' },
+      { id: 'so-3', dateLabel: 'Oct 7', dayName: 'Wed', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:44 AM', note: 'Arrived on time.' },
+      { id: 'so-4', dateLabel: 'Oct 8', dayName: 'Thu', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:50 AM', note: 'Arrived on time.' },
+      { id: 'so-5', dateLabel: 'Oct 9', dayName: 'Fri', weekLabel: 'Week 1', status: 'Present', arrivalTime: '7:48 AM', note: 'Arrived on time.' },
+      { id: 'so-6', dateLabel: 'Oct 12', dayName: 'Mon', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:51 AM', note: 'Arrived on time.' },
+      { id: 'so-7', dateLabel: 'Oct 13', dayName: 'Tue', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:47 AM', note: 'Arrived on time.' },
+      { id: 'so-8', dateLabel: 'Oct 14', dayName: 'Wed', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:45 AM', note: 'Arrived on time.' },
+      { id: 'so-9', dateLabel: 'Oct 15', dayName: 'Thu', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:48 AM', note: 'Arrived on time.' },
+      { id: 'so-10', dateLabel: 'Oct 16', dayName: 'Fri', weekLabel: 'Week 2', status: 'Present', arrivalTime: '7:49 AM', note: 'Arrived on time.' },
+      { id: 'so-11', dateLabel: 'Oct 19', dayName: 'Mon', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:46 AM', note: 'Arrived on time.' },
+      { id: 'so-12', dateLabel: 'Oct 20', dayName: 'Tue', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:48 AM', note: 'Arrived on time.' },
+      { id: 'so-13', dateLabel: 'Oct 21', dayName: 'Wed', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:50 AM', note: 'Arrived on time.' },
+      { id: 'so-14', dateLabel: 'Oct 22', dayName: 'Thu', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:47 AM', note: 'Arrived on time.' },
+      { id: 'so-15', dateLabel: 'Oct 23', dayName: 'Fri', weekLabel: 'Week 3', status: 'Present', arrivalTime: '7:45 AM', note: 'Perfect October attendance!' },
+    ],
+    previousClassAttendance: [
+      {
+        termLabel: 'Term 1',
+        schoolYear: '2025/2026',
+        className: 'Primary 1',
+        presentDays: 59,
+        lateDays: 0,
+        absentDays: 1,
+        totalDays: 60,
+        note: 'Settled into Primary 1 wonderfully.',
+      },
+      {
+        termLabel: 'Term 2',
+        schoolYear: '2025/2026',
+        className: 'Primary 1',
+        presentDays: 59,
+        lateDays: 1,
+        absentDays: 0,
+        totalDays: 60,
+        note: 'Zero absences all term!',
+      },
+      {
+        termLabel: 'Term 3',
+        schoolYear: '2025/2026',
+        className: 'Primary 1',
+        presentDays: 58,
+        lateDays: 0,
+        absentDays: 2,
+        totalDays: 60,
+        note: 'Awarded Best Attendance in Room 1A.',
+      },
     ],
     feedback: [
       {

@@ -9,7 +9,7 @@
   html {
     font-family: var(--font-sans);
     color: #0f172a;
-    background-color: #f7f9fc;
+    background-color: #f8faf8;
   }
 
   h1,
@@ -24,7 +24,7 @@
   input,
   textarea,
   select {
-    outline-color: #2563eb;
+    outline-color: #15803d;
   }
 }
 
@@ -37,4 +37,7 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+#nl-badge-frame {
+  display: none !important;
 }

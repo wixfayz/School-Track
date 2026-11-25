@@ -175,7 +175,7 @@ export function TeacherDashboard({
             src={TEACHER_AMINA_AVATAR}
             alt="Mrs. Amina Ibrahim"
             fallbackInitials="AI"
-            className="w-12 h-12 rounded-full object-cover border border-slate-200 shrink-0"
+            className="w-12 h-12 rounded-full object-cover border-2 border-green-200 shrink-0"
           />
           <div className="min-w-0">
             <h1 className="font-display text-lg font-semibold text-slate-900">
@@ -203,7 +203,7 @@ export function TeacherDashboard({
               onClick={() => onSelectTab(tab.id)}
               className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-white text-slate-900 shadow-xs'
+                  ? 'bg-orange-600 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -251,8 +251,8 @@ export function TeacherDashboard({
                 <div className="flex items-center gap-2">
                   {(
                     [
-                      { status: 'Present', icon: CheckCircle2, active: 'bg-emerald-600 text-white border-emerald-600' },
-                      { status: 'Late', icon: Clock, active: 'bg-amber-600 text-white border-amber-600' },
+                      { status: 'Present', icon: CheckCircle2, active: 'bg-green-700 text-white border-green-700' },
+                      { status: 'Late', icon: Clock, active: 'bg-orange-600 text-white border-orange-600' },
                       { status: 'Absent', icon: AlertCircle, active: 'bg-rose-600 text-white border-rose-600' },
                     ] as const
                   ).map((option) => {
@@ -302,9 +302,9 @@ export function TeacherDashboard({
                   key={pupil.id}
                   type="button"
                   onClick={() => handleSwitchStudent(pupil.id)}
-                  className={`px-3.5 py-1.5 text-sm font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`px-3.5 py-1.5 text-sm font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                     selectedStudent.id === pupil.id
-                      ? 'bg-white text-slate-900 shadow-xs'
+                      ? 'bg-orange-600 text-white shadow-xs'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -396,7 +396,7 @@ export function TeacherDashboard({
             <div className="md:col-span-12 pt-1">
               <button
                 type="submit"
-                className="px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
+                className="px-4 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors cursor-pointer"
               >
                 Save Score for {selectedStudent.firstName}
               </button>
@@ -520,7 +520,7 @@ export function TeacherDashboard({
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 cursor-pointer"
               >
                 <Plus className="w-4 h-4" aria-hidden="true" />
                 Assign Homework
@@ -549,8 +549,8 @@ export function TeacherDashboard({
                     <span
                       className={
                         task.completed
-                          ? 'text-emerald-700 font-semibold'
-                          : 'text-amber-700 font-semibold'
+                          ? 'text-green-700 font-semibold'
+                          : 'text-orange-700 font-semibold'
                       }
                     >
                       {task.completed ? 'Completed at home' : 'Not done yet'}
@@ -641,7 +641,7 @@ export function TeacherDashboard({
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 cursor-pointer"
               >
                 <Send className="w-4 h-4" aria-hidden="true" />
                 Send Note to Bello Family
@@ -742,7 +742,7 @@ export function TeacherDashboard({
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-orange-600 rounded-lg hover:bg-orange-700 cursor-pointer"
               >
                 <Award className="w-4 h-4" aria-hidden="true" />
                 Give Award to {selectedStudent.firstName}

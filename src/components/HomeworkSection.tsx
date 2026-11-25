@@ -46,7 +46,10 @@ export function HomeworkSection({
     <section className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 pb-6 border-b border-slate-100">
         <div>
-          <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+          <p className="text-xs font-semibold text-orange-700">
+            Daily Home Practice
+          </p>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
             Homework Checklist
           </h1>
           <p className="text-sm text-slate-600 mt-1">
@@ -57,7 +60,7 @@ export function HomeworkSection({
         <button
           type="button"
           onClick={() => setShowAddForm((prev) => !prev)}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap shrink-0 self-start md:self-auto cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 transition-colors whitespace-nowrap shrink-0 self-start md:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4" aria-hidden="true" />
           {showAddForm ? 'Close Form' : 'Add Study Reminder'}
@@ -68,7 +71,7 @@ export function HomeworkSection({
       {showAddForm && (
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4"
+          className="bg-orange-50/50 border border-orange-200 rounded-xl p-5 space-y-4"
         >
           <h2 className="font-display text-base font-semibold text-slate-900">
             Add a Quick Home Study Reminder
@@ -89,9 +92,9 @@ export function HomeworkSection({
               >
                 <option value="Reading">Reading</option>
                 <option value="Mathematics">Mathematics</option>
-                <option value="Science">Science</option>
+                <option value="Basic Science">Basic Science</option>
                 <option value="Spelling">Spelling</option>
-                <option value="Art & Craft">Art & Craft</option>
+                <option value="Creative Arts">Creative Arts</option>
               </select>
             </div>
             <div className="sm:col-span-6">
@@ -134,7 +137,7 @@ export function HomeworkSection({
           <div className="flex items-center gap-3">
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer"
+              className="px-4 py-2 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 cursor-pointer"
             >
               Save Reminder
             </button>
@@ -165,7 +168,7 @@ export function HomeworkSection({
             aria-hidden="true"
           >
             <div
-              className="h-full bg-emerald-600 rounded-full transition-all duration-200"
+              className="h-full bg-green-700 rounded-full transition-all duration-200"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -225,10 +228,10 @@ export function HomeworkSection({
                       ? `Mark "${task.title}" as not done`
                       : `Mark "${task.title}" as done`
                   }
-                  className="mt-0.5 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer shrink-0"
+                  className="mt-0.5 text-slate-400 hover:text-green-700 transition-colors cursor-pointer shrink-0"
                 >
                   {task.completed ? (
-                    <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                    <CheckCircle2 className="w-6 h-6 text-green-700" />
                   ) : (
                     <Circle className="w-6 h-6" />
                   )}
@@ -252,8 +255,8 @@ export function HomeworkSection({
                     <span
                       className={
                         task.completed
-                          ? 'text-emerald-700 font-medium'
-                          : 'text-amber-700 font-medium'
+                          ? 'text-green-700 font-semibold'
+                          : 'text-orange-700 font-semibold'
                       }
                     >
                       {task.completed ? 'Completed' : 'To Do'}

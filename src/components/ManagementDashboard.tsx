@@ -57,8 +57,8 @@ export function ManagementDashboard({
       {/* Head Teacher / Management Header */}
       <section className="bg-white border border-slate-200 rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-4 min-w-0">
-          <div className="w-12 h-12 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
-            <Building2 className="w-6 h-6 text-blue-700" aria-hidden="true" />
+          <div className="w-12 h-12 rounded-full bg-green-50 border border-green-200 flex items-center justify-center shrink-0">
+            <Building2 className="w-6 h-6 text-green-700" aria-hidden="true" />
           </div>
           <div className="min-w-0">
             <h1 className="font-display text-lg font-semibold text-slate-900">
@@ -84,7 +84,7 @@ export function ManagementDashboard({
               onClick={() => onSelectTab(tab.id)}
               className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-white text-slate-900 shadow-xs'
+                  ? 'bg-orange-600 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -115,7 +115,7 @@ export function ManagementDashboard({
               <p className="text-xs font-medium text-slate-500">
                 Present Today
               </p>
-              <p className="mt-2 font-display text-2xl font-bold text-emerald-700 tabular-nums">
+              <p className="mt-2 font-display text-2xl font-bold text-green-700 tabular-nums">
                 {schoolAttendanceRate}%
               </p>
               <p className="mt-1 text-xs text-slate-500 tabular-nums">
@@ -139,7 +139,7 @@ export function ManagementDashboard({
               <p className="text-xs font-medium text-slate-500">
                 Recent Awards Given
               </p>
-              <p className="mt-2 font-display text-2xl font-bold text-slate-900 tabular-nums">
+              <p className="mt-2 font-display text-2xl font-bold text-orange-700 tabular-nums">
                 {totalAwards}
               </p>
               <p className="mt-1 text-xs text-slate-500">
@@ -161,7 +161,7 @@ export function ManagementDashboard({
               <button
                 type="button"
                 onClick={() => onSelectTab('announcements')}
-                className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 whitespace-nowrap self-start sm:self-auto cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 whitespace-nowrap self-start sm:self-auto cursor-pointer"
               >
                 Post New Announcement
               </button>
@@ -184,7 +184,7 @@ export function ManagementDashboard({
                       </p>
                     </div>
                     <div className="text-left sm:text-right tabular-nums">
-                      <p className="text-sm font-semibold text-slate-900">
+                      <p className="text-sm font-semibold text-green-800">
                         {cls.presentToday}/{cls.pupilsCount} present ({rate}%)
                       </p>
                       <p className="text-xs text-slate-500">
@@ -290,7 +290,7 @@ export function ManagementDashboard({
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-green-700 rounded-lg hover:bg-green-800 cursor-pointer"
               >
                 <Megaphone className="w-4 h-4" aria-hidden="true" />
                 Publish Announcement
@@ -316,7 +316,10 @@ export function ManagementDashboard({
                 >
                   <div className="space-y-1 min-w-0">
                     <p className="text-xs text-slate-500">
-                      {notice.category} · {notice.date} · {notice.eventDate}
+                      {notice.category} · {notice.date} ·{' '}
+                      <span className="text-orange-700 font-medium">
+                        {notice.eventDate}
+                      </span>
                     </p>
                     <h3 className="font-display text-base font-semibold text-slate-900">
                       {notice.title}
@@ -368,7 +371,7 @@ export function ManagementDashboard({
               </thead>
               <tbody className="divide-y divide-slate-100 text-sm">
                 {SCHOOL_CLASSES.map((cls) => (
-                  <tr key={cls.id} className="hover:bg-slate-50/80">
+                  <tr key={cls.id} className="hover:bg-orange-50/40">
                     <td className="py-3.5 pr-4 font-semibold text-slate-900">
                       {cls.className}
                     </td>
@@ -379,7 +382,7 @@ export function ManagementDashboard({
                     <td className="py-3.5 px-4 text-right text-slate-700 tabular-nums">
                       {cls.pupilsCount}
                     </td>
-                    <td className="py-3.5 pl-4 text-right font-semibold text-emerald-700 tabular-nums">
+                    <td className="py-3.5 pl-4 text-right font-semibold text-green-700 tabular-nums">
                       {cls.presentToday} / {cls.pupilsCount}
                     </td>
                   </tr>
